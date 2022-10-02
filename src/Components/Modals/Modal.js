@@ -42,7 +42,10 @@ function ModalForm(props) {
             addItemToState={props.addItemToState}
             updateState={props.updateState}
             toggle={toggle}
-            item={props.item} />
+            item={props.item} 
+            route={props.route}
+            contact={props.contact}
+            people={props.people}/>
         </ModalBody>
       </Modal>
     </div>

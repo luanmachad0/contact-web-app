@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Container, Row, Col } from 'reactstrap'
-import ModalForm from './Components/Modals/Modal'
-import DataTable from './Components/Tables/DataTable'
+import ModalForm from '../Modals/Modal'
+import DataTable from '../Tables/DataTable'
 
-function App(props) {
-
+function Contact(props) {
   const [items, setItems] = useState([])
+  const location = useLocation()
+  console.log(location)
+  const { itemId } = location.state
 
   const getItems= () => {
-    fetch('http://localhost:39929/peoples')
+    fetch('http://localhost:39929/contacts/' + itemId)
       .then(response => response.json())
       .then(items => setItems(items))
       .catch(err => console.log(err))
@@ -34,7 +37,8 @@ function App(props) {
   }, []);
 
   return (
-      <Container className="App">
+      
+      <Container className="Contact">
         <Row>
           <Col>
             <h1 style={{margin: "20px 0"}}>Contact APP</h1>
@@ -42,16 +46,16 @@ function App(props) {
         </Row>
         <Row>
           <Col>
-            <DataTable items={items} route={"http://localhost:39929/peoples/"} updateState={updateState} deleteItemFromState={deleteItemFromState} />
+            <DataTable items={items} contact={true} route={"http://localhost:39929/contacts/"} updateState={updateState} deleteItemFromState={deleteItemFromState} />
           </Col>
         </Row>
         <Row>
           <Col>
-            <ModalForm buttonLabel="Add People" route={"http://localhost:39929/peoples/"} addItemToState={addItemToState}/>
+            <ModalForm buttonLabel="Add Contact" people={itemId} contact={true} route={"http://localhost:39929/contacts/"} addItemToState={addItemToState}/>
           </Col>
         </Row>
       </Container>
   )
 }
 
-export default App
+export default Contact

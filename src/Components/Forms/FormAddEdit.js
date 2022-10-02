@@ -4,7 +4,8 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 function AddEditForm(props) {
   const[form, setValues] = useState({
     id: 0,
-    name: ''
+    name: '',
+    value: ''
   })
 
   const onChange = e => {
@@ -16,47 +17,89 @@ function AddEditForm(props) {
 
   const submitFormAdd = e => {
     e.preventDefault()
-    fetch('http://localhost:39929/peoples', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: form.name
+    if (!form.value)
+    {
+      fetch(props.route, {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: form.name
+        })
       })
-    })
-      .then(response => response.json())
-      .then(item => {
-          props.addItemToState(item)
-          props.toggle()
+        .then(response => response.json())
+        .then(item => {
+            props.addItemToState(item)
+            props.toggle()
+        })
+        .catch(err => console.log(err))
+    } else {
+      fetch(props.route, {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: form.name,
+          value: form.value,
+          peopleId: props.people
+        })
       })
-      .catch(err => console.log(err))
+        .then(response => response.json())
+        .then(item => {
+            props.addItemToState(item)
+            props.toggle()
+        })
+        .catch(err => console.log(err))
+    }
   }
 
   const submitFormEdit = e => {
     e.preventDefault()
-    fetch('http://localhost:39929/peoples', {
-      method: 'put',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: form.id,
-        name: form.name
+    if (!form.value)
+    {
+      fetch(props.route, {
+        method: 'put',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: form.id,
+          name: form.name
+        })
       })
-    })
-      .then(response => response.json())
-      .then(item => {
-          props.updateState(item)
-          props.toggle()
+        .then(response => response.json())
+        .then(item => {
+            props.updateState(item)
+            props.toggle()
+        })
+        .catch(err => console.log(err))
+    } else {
+      fetch(props.route, {
+        method: 'put',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: form.id,
+          name: form.name,
+          value: form.value
+        })
       })
-      .catch(err => console.log(err))
+        .then(response => response.json())
+        .then(item => {
+            props.updateState(item)
+            props.toggle()
+        })
+        .catch(err => console.log(err))
+    }
   }
 
   useEffect(() => {
     if(props.item){
-      const { id, name } = props.item
-      setValues({ id, name })
+      const { id, name, value } = props.item
+      setValues({ id, name, value })
     }
   }, [])
 
@@ -65,6 +108,12 @@ function AddEditForm(props) {
       <FormGroup>
         <Label for="name">Name</Label>
         <Input type="text" name="name" id="name" onChange={onChange} value={form.name === null ? '' : form.name} />
+        {props.contact &&
+          <>
+            <Label for="value">Value</Label>
+            <Input type="text" name="value" id="value" onChange={onChange} value={form.value === null ? '' : form.value} />
+          </>
+        }
       </FormGroup>
       <Button>Submit</Button>
     </Form>
