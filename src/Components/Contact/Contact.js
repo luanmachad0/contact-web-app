@@ -11,7 +11,7 @@ function Contact(props) {
   const { itemId } = location.state
 
   const getItems= () => {
-    fetch('http://localhost:39929/contacts/' + itemId)
+    fetch('https://contactwebapi.azurewebsites.net/contacts/' + itemId)
       .then(response => response.json())
       .then(items => setItems(items))
       .catch(err => console.log(err))
@@ -46,12 +46,12 @@ function Contact(props) {
         </Row>
         <Row>
           <Col>
-            <DataTable items={items} contact={true} route={"http://localhost:39929/contacts/"} updateState={updateState} deleteItemFromState={deleteItemFromState} />
+            <DataTable items={items} contact={true} route={"https://contactwebapi.azurewebsites.net/contacts/"} updateState={updateState} deleteItemFromState={deleteItemFromState} />
           </Col>
         </Row>
         <Row>
           <Col>
-            <ModalForm buttonLabel="Add Contact" people={itemId} contact={true} route={"http://localhost:39929/contacts/"} addItemToState={addItemToState}/>
+            <ModalForm buttonLabel="Add Contact" people={itemId} contact={true} route={"https://contactwebapi.azurewebsites.net/contacts/"} addItemToState={addItemToState}/>
           </Col>
         </Row>
       </Container>

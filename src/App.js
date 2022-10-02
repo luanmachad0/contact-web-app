@@ -8,7 +8,7 @@ function App(props) {
   const [items, setItems] = useState([])
 
   const getItems= () => {
-    fetch('http://localhost:39929/peoples')
+    fetch('https://contactwebapi.azurewebsites.net/peoples')
       .then(response => response.json())
       .then(items => setItems(items))
       .catch(err => console.log(err))
@@ -42,12 +42,12 @@ function App(props) {
         </Row>
         <Row>
           <Col>
-            <DataTable items={items} route={"http://localhost:39929/peoples/"} updateState={updateState} deleteItemFromState={deleteItemFromState} />
+            <DataTable items={items} route={"https://contactwebapi.azurewebsites.net/peoples/"} updateState={updateState} deleteItemFromState={deleteItemFromState} />
           </Col>
         </Row>
         <Row>
           <Col>
-            <ModalForm buttonLabel="Add People" route={"http://localhost:39929/peoples/"} addItemToState={addItemToState}/>
+            <ModalForm buttonLabel="Add People" route={"https://contactwebapi.azurewebsites.net/peoples/"} addItemToState={addItemToState}/>
           </Col>
         </Row>
       </Container>
